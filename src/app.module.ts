@@ -10,12 +10,10 @@ import { UsuarioModule } from './usuario/usuario.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({
-      isGlobal: true
-    }),
+    ConfigModule.forRoot(),
     TypeOrmModule.forRootAsync({
       useClass: PostgresService,
-      inject: [PostgresService]
+      imports: [ConfigModule],
     }),
     PostagemModule,
     TemaModule,
