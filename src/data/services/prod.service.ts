@@ -3,9 +3,7 @@ import { ConfigService } from "@nestjs/config";
 import { TypeOrmModuleOptions, TypeOrmOptionsFactory } from "@nestjs/typeorm";
 
 @Injectable()
-export class PostgresService implements TypeOrmOptionsFactory {
-
-  constructor(private configService: ConfigService) { }
+export class ProdService implements TypeOrmOptionsFactory {
 
   createTypeOrmOptions(): TypeOrmModuleOptions {
     return {
