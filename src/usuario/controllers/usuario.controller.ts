@@ -3,6 +3,8 @@ import { UsuarioService } from "../services/usuario.service";
 import { Usuario } from "../entities/usuario.entity";
 import { JwtAuthGuard } from "../../auth/guard/jwt-auth.guard";
 import { ApiTags, ApiBearerAuth } from "@nestjs/swagger";
+import { Roles } from "../../auth/decorators/roles.decorator";
+import { Role } from "../../auth/enums/role.enum";
 
 @ApiTags('Usuario')
 @ApiBearerAuth()
@@ -11,6 +13,7 @@ export class UsuarioController{
 
     constructor(private readonly usuarioService: UsuarioService){ }
 
+    @Roles(Role.Admin)
     @UseGuards(JwtAuthGuard)
     @Get('/all')
     @HttpCode(HttpStatus.OK)

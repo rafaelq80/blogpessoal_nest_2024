@@ -2,8 +2,22 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { DataSourceOptions } from 'typeorm';
+import { createDatabase } from 'typeorm-extension';
 
 async function bootstrap() {
+
+   // Opções para criar o Banco de dados
+   const options: DataSourceOptions = {
+    type: 'mysql',
+    database: 'db_blogpessoal_roles',
+    username: 'root',
+    password: 'root'
+  };
+
+  // Função para criar o Banco de dados
+  await createDatabase({ ifNotExist: true, options });
+  
   const app = await NestFactory.create(AppModule);
 
   const config = new DocumentBuilder()

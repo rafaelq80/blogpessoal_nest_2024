@@ -8,6 +8,8 @@ import { AuthService } from "./services/auth.service";
 import { LocalStrategy } from "./strategy/local.strategy";
 import { JwtStrategy } from "./strategy/jwt.strategy";
 import { AuthController } from "./controllers/auth.controller";
+import { RolesGuard } from "./guard/role.guard";
+import { APP_GUARD } from "@nestjs/core";
 
 @Module({
     imports: [
@@ -15,11 +17,16 @@ import { AuthController } from "./controllers/auth.controller";
         PassportModule,
         JwtModule.register({
             secret: jwtConstants.secret,
-            signOptions:{ expiresIn: '1h' },
+            signOptions: { expiresIn: '1h' },
         }),
     ],
-    providers: [Bcrypt, AuthService, LocalStrategy, JwtStrategy],
-    controllers:[AuthController],
+    providers: [Bcrypt, AuthService, LocalStrategy, JwtStrategy,
+        {
+            provide: APP_GUARD,
+            useClass: RolesGuard,
+        }
+    ],
+    controllers: [AuthController],
     exports: [Bcrypt],
 })
 export class AuthModule { }
